@@ -1,0 +1,135 @@
+:root{
+  --bg:#060d1a; --panel:#0d1930; --panel-2:#101f3d; --line:#1c2c4d;
+  --gold:#f0ad2e; --gold-soft:#f6c96b; --blue:#3d7bff; --text:#eef2f9;
+  --muted:#8ea0c2; --green:#34c283; --screen-bg:#0a1628;
+}
+html,body,#root{min-height:100%;height:auto;background:var(--bg);overflow:auto;}
+body{margin:0;color:var(--text);font-family:'Inter','Nunito',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+button{font:inherit}.walkthrough-shell{min-height:100%;background:radial-gradient(1100px 700px at 12% -10%,#0f2044 0%,var(--bg) 55%),var(--bg);}
+.wrap{max-width:1160px;margin:0 auto;padding:64px 28px 80px;}
+.hero{display:flex;align-items:center;gap:56px;padding-bottom:72px;border-bottom:1px solid var(--line);}
+.hero-copy{flex:1;min-width:280px}.eyebrow-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}.site-logo{width:52px;height:52px;object-fit:cover;border-radius:50%;display:block;box-shadow:0 0 0 1px rgba(255,255,255,.08)}.eyebrow-logo span{font-family:'Sora','Inter',sans-serif;font-weight:800;font-size:19px}.eyebrow-logo span b{color:var(--blue)}
+.hero h1{font-family:'Sora','Inter',sans-serif;font-size:46px;line-height:1.08;font-weight:800;margin:0 0 18px;max-width:11ch}.hero h1 em{font-style:normal;color:var(--gold-soft)}.hero p{color:var(--muted);font-size:17px;max-width:46ch;margin:0 0 30px}.hero-tags{display:flex;flex-wrap:wrap;gap:10px}.tag{border:1px solid var(--line);color:var(--muted);font-size:13px;padding:7px 14px;border-radius:100px;background:rgba(255,255,255,.02)}
+.hero-card{width:300px;flex-shrink:0;border:1px solid var(--line);border-radius:22px;padding:28px;background:linear-gradient(160deg,rgba(61,123,255,.13),rgba(255,255,255,.02));box-shadow:0 30px 70px -30px rgba(0,0,0,.85);display:flex;flex-direction:column;gap:10px}.hero-card-kicker{font-size:11px;letter-spacing:.12em;font-weight:900;color:var(--gold-soft)}.hero-card strong{font-size:23px}.hero-card span{color:var(--muted);font-size:14px}
+.section{padding:72px 0;border-bottom:1px solid var(--line)}.kicker{color:var(--gold-soft);font-size:14px;font-weight:700;margin:0 0 10px}.section h2{font-family:'Sora','Inter',sans-serif;font-size:32px;font-weight:800;margin:0 0 14px;max-width:24ch}.section>p.lede{color:var(--muted);font-size:16px;max-width:62ch;margin:0 0 40px}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.ba-card{border-radius:18px;padding:28px 26px;border:1px solid var(--line)}.ba-card.before{background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}.ba-card.after{background:linear-gradient(180deg,rgba(61,123,255,.09),rgba(61,123,255,.02));border-color:rgba(61,123,255,.35)}.ba-label{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:100px;margin-bottom:18px}.before .ba-label{background:rgba(255,255,255,.06);color:var(--muted)}.after .ba-label{background:rgba(61,123,255,.18);color:#9db8ff}.ba-card h3{margin:0 0 18px;font-size:20px}.ba-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}.ba-list li{display:flex;gap:12px;font-size:14.5px;color:#c7d2e6}.ba-list .ico{flex-shrink:0;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:1px}.before .ico{background:rgba(240,90,90,.15);color:#f27272}.after .ico{background:rgba(52,194,131,.18);color:var(--green)}
+.proto-toolbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin-bottom:36px}.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:4px}.seg button{border:0;background:transparent;color:var(--muted);font-weight:700;font-size:13.5px;padding:10px 20px;border-radius:100px;cursor:pointer;transition:.2s;white-space:nowrap}.seg button.active{background:var(--blue);color:white}.interaction-hint{font-size:12px;font-weight:800;color:var(--green);background:rgba(52,194,131,.09);border:1px solid rgba(52,194,131,.2);padding:8px 12px;border-radius:100px}
+.proto-stage{width:100%;display:flex;justify-content:center;align-items:flex-start;margin-bottom:28px}.interactive-device{isolation:isolate}.phone-frame{position:relative;width:410px;border-radius:48px;padding:14px;background:#020204;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px #2c2c31}.phone-screen{position:relative;width:382px;height:820px;border-radius:36px;overflow:hidden;background:var(--screen-bg)}.phone-speaker{position:absolute;z-index:20;top:24px;left:50%;transform:translateX(-50%);width:112px;height:25px;background:#000;border-radius:20px;pointer-events:none}.live-mobile{font-size:16px}.live-mobile>div{width:100%;height:100%!important}
+.browser-frame{position:relative;width:100%;max-width:1080px;border-radius:16px;padding:0 0 12px;background:#15161a;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px #2a2b30}.browser-bar{display:flex;align-items:center;gap:8px;padding:14px 16px}.browser-bar .dot-b{width:11px;height:11px;border-radius:50%;background:#3a3b40}.browser-bar .red{background:#ff5f57}.browser-bar .yellow{background:#febc2e}.browser-bar .green{background:#28c840}.browser-bar .addr{flex:1;margin-left:8px;background:#0d0e11;border-radius:7px;padding:6px 14px;font-size:12.5px;color:#6b6d76}.browser-screen{position:relative;width:calc(100% - 20px);margin:0 10px;height:675px;border-radius:8px;overflow:hidden;background:var(--screen-bg)}.live-desktop>div{width:100%;height:100%!important}
+.proto-help{max-width:760px;margin:0 auto;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);color:var(--muted);font-size:13.5px;text-align:center}.proto-help strong{color:var(--text)}.foot{padding-top:56px;text-align:center;color:var(--muted);font-size:13.5px}.foot .mark-small{font-weight:800;color:var(--text)}
+/* make internal fixed export helpers invisible if any remain */
+.prototype-section [style*="position: fixed"][style*="z-index: 9999"]{display:none!important}
+@media(max-width:760px){.wrap{padding:36px 16px 60px}.hero{flex-direction:column;align-items:flex-start;gap:32px;padding-bottom:50px}.hero h1{font-size:34px}.hero-card{width:100%}.ba-grid{grid-template-columns:1fr}.section{padding:52px 0}.section h2{font-size:27px}.phone-frame{width:330px;border-radius:40px;padding:11px}.phone-screen{width:308px;height:662px;border-radius:30px}.phone-speaker{top:19px;width:90px;height:20px}.live-mobile{width:382px!important;height:820px!important;transform:scale(.806);transform-origin:top left}.browser-frame{width:100%;overflow:hidden}.browser-screen{height:420px}.live-desktop{width:1080px!important;height:675px!important;transform:scale(.58);transform-origin:top left}}
+
+
+/* ---------- FEEDBACK / FORMSPREE ---------- */
+.feedback-section{border-bottom:1px solid var(--line)}
+.feedback-form{max-width:860px;border:1px solid var(--line);border-radius:18px;padding:26px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012))}
+.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.feedback-form label{display:flex;flex-direction:column;gap:8px;color:var(--text);font-size:13px;font-weight:700}
+.feedback-form label small{color:var(--muted);font-weight:500}
+.feedback-form input,.feedback-form textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;background:#091426;color:var(--text);padding:13px 14px;font:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+.feedback-form input:focus,.feedback-form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(61,123,255,.12)}
+.feedback-form textarea{resize:vertical;min-height:130px}
+.feedback-message{margin-top:18px}
+.feedback-actions{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:18px}
+.feedback-actions p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.5}
+.feedback-actions code{color:#b8c9ff;background:rgba(61,123,255,.09);padding:2px 5px;border-radius:5px}
+.feedback-actions button{border:0;border-radius:999px;background:var(--blue);color:#fff;font-weight:800;padding:12px 20px;cursor:pointer;white-space:nowrap}
+.feedback-actions button:hover{filter:brightness(1.07)}
+@media(max-width:760px){.site-logo{width:46px;height:46px}.feedback-form{padding:20px}.feedback-grid{grid-template-columns:1fr}.feedback-actions{align-items:stretch;flex-direction:column}.feedback-actions button{width:100%}}
+
+
+/* POV selector added for the merged Student / Organization / Local Business prototypes. */
+.pov-switch {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px auto 12px;
+}
+.pov-switch button {
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.045);
+  color: rgba(255,255,255,.68);
+  padding: 10px 15px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: .18s ease;
+}
+.pov-switch button:hover { background: rgba(255,255,255,.08); color: #fff; }
+.pov-switch button.active {
+  color: #fff;
+  background: #2563eb;
+  border-color: #3b82f6;
+  box-shadow: 0 8px 24px rgba(37,99,235,.22);
+}
+.current-view-label {
+  width: fit-content;
+  margin: 12px auto 2px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(56,189,248,.18);
+  background: rgba(56,189,248,.07);
+  color: #7dd3fc;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+
+/* ===== Shared prototype frame normalization =====
+   Organization and Local Business now use the SAME website phone/browser frame
+   as Student POV. Their own internal frames are removed in the TSX files.
+   Native scrollbars are hidden, but mouse wheel/touch scrolling still works.
+*/
+.live-mobile,
+.live-desktop {
+  background: var(--screen-bg);
+  overflow: hidden;
+}
+
+.live-mobile > div,
+.live-desktop > div {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Hide visible browser scrollbars without disabling scrolling. */
+.live-mobile *,
+.live-desktop * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.live-mobile *::-webkit-scrollbar,
+.live-desktop *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Keep the shared outer frames clean and flush. */
+.phone-screen,
+.browser-screen {
+  isolation: isolate;
+}
+
+.browser-screen {
+  overflow: hidden !important;
+}
+
+/* On small screens, retain the same Student POV scaling behavior. */
+@media(max-width:760px){
+  .live-mobile > div,
+  .live-desktop > div {
+    border-radius: 0 !important;
+  }
+}
