@@ -116,6 +116,24 @@ button{font:inherit}.walkthrough-shell{min-height:100%;background:radial-gradien
   display: none;
 }
 
+/* Allow every POV's internal mobile page to shrink inside the fixed phone
+   viewport, then scroll its existing .phone-scroll content. */
+.live-mobile .flex-1 {
+  min-height: 0;
+}
+
+.live-mobile .phone-scroll {
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.live-mobile .phone-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Keep the shared outer frames clean and flush. */
 .phone-screen,
 .browser-screen {

@@ -107,6 +107,89 @@ body,
   justify-content: center;
   flex-shrink: 0;
 }
+
+/* Student desktop refinement. Keeps the existing navy/gold visual system while
+   matching the spacing rhythm and density of the two management portals. */
+.student-desktop {
+  background:
+    radial-gradient(900px 520px at 72% -18%, rgba(37,99,235,.10), transparent 60%),
+    #020b18 !important;
+}
+.student-brand-logo {
+  background: #071426;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08);
+}
+.student-brand-logo img {
+  transform: scale(1.09);
+}
+.student-desktop .desktop-search {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.05);
+  padding: 10px 12px;
+}
+.student-desktop .desktop-search input {
+  font-size: 12px;
+  text-overflow: ellipsis;
+}
+.student-desktop-content h1,
+.student-desktop-content h2 {
+  font-size: 22px;
+  line-height: 1.2;
+}
+.student-desktop-content .desktop-panel {
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+}
+.student-desktop-content .desktop-panel-head {
+  margin-bottom: 14px;
+}
+.student-desktop-content .desktop-stat-card {
+  min-height: 76px;
+  border-radius: 16px;
+  padding: 15px 16px;
+  gap: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.10);
+}
+.student-desktop-content .desktop-stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+.student-desktop-content .desktop-org-row {
+  min-height: 76px;
+  padding: 12px;
+  border-radius: 14px;
+}
+.student-desktop-content .desktop-event-row {
+  min-height: 58px;
+  padding: 9px 11px;
+  border-radius: 13px;
+}
+.student-desktop-content .desktop-quick-btn {
+  min-height: 38px;
+  border-radius: 11px;
+}
+.student-desktop-content .desktop-primary-btn {
+  padding: 10px 14px;
+  font-size: 11px;
+  border-radius: 11px;
+}
+.student-desktop-content > * {
+  height: auto !important;
+  min-height: 100%;
+  overflow: visible !important;
+}
+.student-desktop-content .market-product-card {
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.student-desktop-content .market-product-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245,166,35,.35) !important;
+  box-shadow: 0 16px 32px rgba(0,0,0,.24);
+}
 .desktop-org-row,
 .desktop-event-row,
 .desktop-event-list-row {

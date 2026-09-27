@@ -84,7 +84,7 @@ function EventRow({ month, day, dayName, title, type, time, location, typeColor 
 
 function HomeScreen({ onOpenApps, onNav, onOpenNotifs }: { onOpenApps: () => void; onNav: (tab: TabName) => void; onOpenNotifs: () => void }) {
   return (
-    <div className="flex-1 flex flex-col overflow-hidden pb-2" style={{ background: BG }}>
+    <div className="flex-1 min-h-0 flex flex-col overflow-y-auto phone-scroll pb-6" style={{ background: BG }}>
 
       {/* Header */}
       <div className="px-4 safe-top pb-2 flex items-start justify-between flex-shrink-0">
@@ -300,7 +300,7 @@ function OrganizationsScreen({ onSelect }: { onSelect: (org: typeof ORGS[0]) => 
   );
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden" style={{ background: BG }}>
+    <div className="flex-1 min-h-0 flex flex-col overflow-hidden" style={{ background: BG }}>
       {/* Header */}
       <div className="px-4 safe-top pb-3 flex-shrink-0">
         <div className="flex items-center gap-3 mb-4">
@@ -348,7 +348,7 @@ function OrganizationsScreen({ onSelect }: { onSelect: (org: typeof ORGS[0]) => 
       </div>
 
       {/* List */}
-      <div className="flex-1 overflow-y-auto phone-scroll px-4 pb-4 flex flex-col gap-2">
+      <div className="flex-1 min-h-0 overflow-y-auto phone-scroll overscroll-contain px-4 pb-6 flex flex-col gap-2">
         {filtered.map(org => (
           <button key={org.name} onClick={() => onSelect(org)} className="rounded-2xl p-3 flex items-center gap-3 text-left w-full" style={{ background: "#0e1c35", border: "1px solid rgba(255,255,255,0.07)" }}>
             <OrgLogoPlaceholder name={org.name} color={org.color} />
@@ -1120,7 +1120,7 @@ const MERCH_ITEMS = [
 ];
 
 const LOCAL_SELLERS = [
-  { name: "Brewed Awakening", cat: "Food & Drinks", desc: "Great coffee to fuel your busy days.", discount: "10% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&h=200&fit=crop", color: "#f5a623" },
+  { name: "Campus Brew Café", cat: "Food & Drinks", desc: "Coffee, snacks, sandwiches, and study combos near campus.", discount: "10% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1741448682479-cf2ff435576d?auto=format&fit=crop&w=500&q=80", color: "#f5a623" },
   { name: "PrintHub Davao", cat: "Services", desc: "Quality prints at student-friendly prices.", discount: "15% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=200&h=200&fit=crop", color: "#38bdf8" },
   { name: "Kusina ni Ate", cat: "Food & Drinks", desc: "Lutong bahay goodness made with love.", discount: "5% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop", color: "#10b981" },
   { name: "Studio Lens", cat: "Services", desc: "Capture moments that matter.", discount: "10% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=200&h=200&fit=crop", color: "#a78bfa" },
@@ -1869,7 +1869,7 @@ export default function MobilePrototype() {
     <div className="w-full flex flex-col" style={{ background: BG, fontFamily: "'Nunito', sans-serif", color: "white", height: "100%", overflow: "hidden" }}>
 
       {/* Screen content */}
-      <div className="flex-1 flex flex-col overflow-hidden relative">
+      <div className="flex-1 min-h-0 flex flex-col overflow-hidden relative">
         {!authed ? (
           <AuthFlow onDone={() => setAuthed(true)} />
         ) : (

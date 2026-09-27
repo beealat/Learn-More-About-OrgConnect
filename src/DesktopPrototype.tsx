@@ -1121,7 +1121,7 @@ const MERCH_ITEMS = [
 ];
 
 const LOCAL_SELLERS = [
-  { name: "Brewed Awakening", cat: "Food & Drinks", desc: "Great coffee to fuel your busy days.", discount: "10% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&h=200&fit=crop", color: "#f5a623" },
+  { name: "Campus Brew Café", cat: "Food & Drinks", desc: "Coffee, snacks, sandwiches, and study combos near campus.", discount: "10% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1741448682479-cf2ff435576d?auto=format&fit=crop&w=500&q=80", color: "#f5a623" },
   { name: "PrintHub Davao", cat: "Services", desc: "Quality prints at student-friendly prices.", discount: "15% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=200&h=200&fit=crop", color: "#38bdf8" },
   { name: "Kusina ni Ate", cat: "Food & Drinks", desc: "Lutong bahay goodness made with love.", discount: "5% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop", color: "#10b981" },
   { name: "Studio Lens", cat: "Services", desc: "Capture moments that matter.", discount: "10% STUDENT DISCOUNT", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=200&h=200&fit=crop", color: "#a78bfa" },
@@ -1134,6 +1134,7 @@ const MERCH_CATS = ["All", "Clothing", "Accessories", "Drinkware", "Print"];
 function MerchScreen() {
   const [view, setView] = useState<"merch" | "sellers">("merch");
   const [cat, setCat] = useState("All");
+  const [sellerCat, setSellerCat] = useState("All");
   const [cart, setCart] = useState<number[]>([]);
   const [selected, setSelected] = useState<typeof MERCH_ITEMS[0] | null>(null);
 
@@ -1901,7 +1902,7 @@ function DesktopHomePanel({ onNav, onOpenApps }: { onNav: (t: TabName) => void; 
             </div>
             <button onClick={() => onNav("Organizations")} className="desktop-link">See all</button>
           </div>
-          <div className="flex-1 overflow-y-auto phone-scroll pr-1 flex flex-col gap-2">
+          <div className="flex-1 pr-1 flex flex-col gap-2">
             {ORGS.slice(0, 4).map(org => (
               <button key={org.name} onClick={() => onNav("Organizations")} className="desktop-org-row text-left">
                 <OrgLogo name={org.name} size={38} />
@@ -2120,12 +2121,67 @@ function DesktopEventsPanel() {
 function DesktopMerchPanel() {
   const [view, setView] = useState<"merch" | "sellers">("merch");
   const [cat, setCat] = useState("All");
+  const [sellerCat, setSellerCat] = useState("All");
+  const [search, setSearch] = useState("");
   const [cart, setCart] = useState<number[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<typeof MERCH_ITEMS[0] | null>(null);
+  const [selectedSeller, setSelectedSeller] = useState<typeof LOCAL_SELLERS[0] | null>(null);
 
-  const filtered = MERCH_ITEMS.filter(m => cat === "All" || m.category === cat);
+  const filtered = MERCH_ITEMS.filter(m =>
+    (cat === "All" || m.category === cat) &&
+    (m.name.toLowerCase().includes(search.toLowerCase()) || m.seller.toLowerCase().includes(search.toLowerCase()))
+  );
+  const filteredSellers = LOCAL_SELLERS.filter(s =>
+    (sellerCat === "All" || s.cat === sellerCat) &&
+    (s.name.toLowerCase().includes(search.toLowerCase()) || s.cat.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  if (selectedProduct) {
+    const inCart = cart.includes(selectedProduct.id);
+    const sold = selectedProduct.id * 7 + 13;
+    return (
+      <div className="h-full overflow-y-auto phone-scroll pb-6">
+        <div className="flex items-center gap-3 mb-6">
+          <button onClick={() => setSelectedProduct(null)} className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(255,255,255,0.08)" }} aria-label="Back to Marketplace">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M10 3.5L5.5 8l4.5 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          <div>
+            <h2 className="text-white text-2xl font-black">Product Detail</h2>
+            <p className="text-slate-500 text-xs mt-1">Marketplace · {selectedProduct.category}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-7 rounded-3xl p-6" style={{ background: "#0e1e38", border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="relative rounded-2xl overflow-hidden min-h-[430px]" style={{ background: "#1a2a52" }}>
+            <img src={selectedProduct.img} alt={selectedProduct.name} className="absolute inset-0 w-full h-full object-cover" />
+            {selectedProduct.tag && <span className="absolute top-4 left-4 text-[10px] font-black px-3 py-1.5 rounded-full bg-amber-400 text-[#020b18]">{selectedProduct.tag}</span>}
+          </div>
+
+          <div className="flex flex-col py-2">
+            <span className="text-[11px] font-black uppercase tracking-wider text-amber-400">{selectedProduct.category}</span>
+            <h3 className="text-white text-3xl font-black leading-tight mt-2">{selectedProduct.name}</h3>
+            <p className="text-slate-400 text-sm mt-2">by {selectedProduct.seller}</p>
+            <div className="text-amber-400 text-3xl font-black mt-6">₱{selectedProduct.price}</div>
+            <p className="text-slate-300 text-sm leading-relaxed mt-5">{selectedProduct.desc}</p>
+
+            <div className="grid grid-cols-3 rounded-2xl mt-6 py-4" style={{ background: "#132544", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <div className="text-center border-r border-white/10"><div className="text-white text-sm font-black">{selectedProduct.category}</div><div className="text-slate-500 text-[10px] mt-1">Category</div></div>
+              <div className="text-center border-r border-white/10"><div className="text-white text-sm font-black">12 left</div><div className="text-slate-500 text-[10px] mt-1">Stock</div></div>
+              <div className="text-center"><div className="text-white text-sm font-black">{sold}</div><div className="text-slate-500 text-[10px] mt-1">Sold</div></div>
+            </div>
+
+            <div className="mt-auto pt-7 space-y-3">
+              <button onClick={() => setCart(inCart ? cart.filter(i => i !== selectedProduct.id) : [...cart, selectedProduct.id])} className="w-full h-12 rounded-xl font-black text-sm" style={{ background: inCart ? "rgba(16,185,129,0.15)" : "#f5a623", color: inCart ? "#10b981" : "#020b18" }}>{inCart ? "✓ Added to Cart" : "Add to Cart"}</button>
+              <button className="w-full h-12 rounded-xl text-white font-black text-sm" style={{ background: "#24469b" }}>Buy Now · ₱{selectedProduct.price}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="relative flex flex-col h-full overflow-hidden">
       <div className="flex-shrink-0 mb-5">
         <div className="flex items-center justify-between">
           <div>
@@ -2146,41 +2202,45 @@ function DesktopMerchPanel() {
             </button>
           </div>
         </div>
+        <div className="mt-4 flex items-center gap-3">
+          <div className="flex-1 flex items-center gap-2 rounded-xl px-4 py-3 bg-white/5 border border-white/10">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.45)" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search products, organizations, or local sellers" className="flex-1 bg-transparent outline-none text-xs text-white placeholder:text-slate-500" />
+          </div>
+          <button className="px-4 py-3 rounded-xl bg-amber-400 text-[#020b18] text-xs font-black">Search</button>
+        </div>
       </div>
 
       {view === "merch" ? (
-        <div className="flex-1 flex gap-4 min-h-0">
-          {/* Category sidebar */}
-          <div className="w-44 flex-shrink-0 flex flex-col gap-1">
-            <div className="text-xs font-black text-white mb-2">Categories</div>
+        <div className="flex-1 flex flex-col gap-4 min-h-0">
+          {/* Horizontal category filters */}
+          <div className="flex-shrink-0 flex items-center gap-2">
             {MERCH_CATS.map(c => (
-              <button key={c} onClick={() => setCat(c)} className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition-all" style={{ background: cat === c ? "#2563eb" : "rgba(255,255,255,0.05)", color: cat === c ? "#fff" : "rgba(255,255,255,0.65)", border: cat === c ? "none" : "1px solid rgba(255,255,255,0.07)" }}>{c}</button>
+              <button key={c} onClick={() => setCat(c)} className="px-4 py-2 rounded-full text-xs font-bold transition-all" style={{ background: cat === c ? "#f5a623" : "rgba(255,255,255,0.05)", color: cat === c ? "#020b18" : "rgba(255,255,255,0.65)", border: cat === c ? "none" : "1px solid rgba(255,255,255,0.10)" }}>{c}</button>
             ))}
           </div>
 
           {/* Product grid */}
-          <div className="flex-1 overflow-y-auto phone-scroll">
-            <div className="grid grid-cols-3 gap-3 pb-4">
+          <div className="flex-1">
+            <div className="market-product-grid grid grid-cols-4 gap-4 pb-6">
               {filtered.map(item => (
-                <div key={item.id} className="rounded-2xl overflow-hidden flex flex-col cursor-pointer group" style={{ background: "#0e1e38", border: "1px solid rgba(255,255,255,0.07)" }}>
-                  <div className="relative" style={{ height: 160, background: "#1a2a52" }}>
+                <div key={item.id} onClick={() => setSelectedProduct(item)} className="market-product-card rounded-2xl overflow-hidden flex flex-col cursor-pointer group" style={{ background: "#0e1e38", border: "1px solid rgba(255,255,255,0.07)" }}>
+                  <div className="relative w-full overflow-hidden" style={{ height: 145, background: "#1a2a52" }}>
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
-                    {item.tag && <span className="absolute top-2 left-2 text-xs font-black px-2 py-0.5 rounded-full" style={{ background: "#f5a623", color: "#020b18" }}>{item.tag}</span>}
+                    {item.tag && <span className="absolute top-1.5 left-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full" style={{ background: "#f5a623", color: "#020b18" }}>{item.tag}</span>}
                   </div>
-                  <div className="p-3 flex flex-col gap-1 flex-1">
+                  <div className="p-3 flex-1 min-w-0 flex flex-col">
                     <div className="text-white font-black text-sm leading-tight">{item.name}</div>
-                    <div className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>by {item.seller}</div>
-                    <div className="flex items-center justify-between mt-auto pt-2">
-                      <span className="font-black text-base" style={{ color: "#f5a623" }}>₱{item.price}</span>
+                    <div className="text-xs mt-0.5 truncate" style={{ color: "rgba(255,255,255,0.45)" }}>by {item.seller}</div>
+                    <div className="flex items-center gap-3 mt-2 text-[10px] text-slate-500"><span>★ 4.8</span><span>{item.id * 7 + 13} sold</span></div>
+                    <div className="flex items-center justify-between mt-auto pt-3">
+                      <span className="font-black text-sm" style={{ color: "#f5a623" }}>₱{item.price}</span>
                       <button
                         onClick={e => { e.stopPropagation(); setCart(cart.includes(item.id) ? cart.filter(i => i !== item.id) : [...cart, item.id]); }}
-                        className="w-8 h-8 rounded-full flex items-center justify-center transition-all"
-                        style={{ border: `2px solid ${cart.includes(item.id) ? "#10b981" : "rgba(255,255,255,0.3)"}`, background: cart.includes(item.id) ? "rgba(16,185,129,0.15)" : "transparent" }}
+                        className="px-3 h-8 rounded-lg flex items-center justify-center gap-1 text-[10px] font-black transition-all"
+                        style={{ background: cart.includes(item.id) ? "rgba(16,185,129,0.15)" : "#f5a623", color: cart.includes(item.id) ? "#10b981" : "#020b18" }}
                       >
-                        {cart.includes(item.id)
-                          ? <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-6" stroke="#10b981" strokeWidth="2" strokeLinecap="round"/></svg>
-                          : <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round"/></svg>
-                        }
+                        {cart.includes(item.id) ? "✓ Added" : "+ Cart"}
                       </button>
                     </div>
                   </div>
@@ -2190,30 +2250,57 @@ function DesktopMerchPanel() {
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex gap-4 min-h-0">
-          {/* Category sidebar */}
-          <div className="w-44 flex-shrink-0 flex flex-col gap-2">
-            <div className="text-xs font-black text-white mb-1">Browse By</div>
+        <div className="flex-1 flex flex-col gap-4 min-h-0">
+          {/* Horizontal category filters */}
+          <div className="flex-shrink-0 flex items-center gap-2">
             {["All", "Food & Drinks", "Services", "Merch & Crafts", "Others"].map(c => (
-              <button key={c} className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition-all" style={{ background: c === "All" ? "#2563eb" : "rgba(255,255,255,0.05)", color: c === "All" ? "#fff" : "rgba(255,255,255,0.65)", border: c !== "All" ? "1px solid rgba(255,255,255,0.07)" : "none" }}>{c}</button>
+              <button key={c} onClick={()=>setSellerCat(c)} className="px-4 py-2 rounded-full text-xs font-bold transition-all" style={{ background: sellerCat === c ? "#f5a623" : "rgba(255,255,255,0.05)", color: sellerCat === c ? "#020b18" : "rgba(255,255,255,0.65)", border: sellerCat !== c ? "1px solid rgba(255,255,255,0.10)" : "none" }}>{c}</button>
             ))}
           </div>
 
           {/* Sellers grid */}
-          <div className="flex-1 overflow-y-auto phone-scroll">
-            <div className="grid grid-cols-2 gap-3 pb-4">
-              {LOCAL_SELLERS.map(seller => (
-                <div key={seller.name} className="rounded-2xl flex items-center gap-3 p-3 cursor-pointer" style={{ background: "#0e1e38", border: "1px solid rgba(255,255,255,0.07)" }}>
-                  <div className="flex-shrink-0 rounded-xl overflow-hidden" style={{ width: 80, height: 80, background: "#1a2a52" }}>
+          <div className="flex-1">
+            <div className="grid grid-cols-4 gap-4 pb-6">
+              {filteredSellers.map(seller => (
+                <div key={seller.name} onClick={() => setSelectedSeller(seller)} className="market-product-card rounded-2xl overflow-hidden flex flex-col cursor-pointer" style={{ background: "#0e1e38", border: "1px solid rgba(255,255,255,0.07)" }}>
+                  <div className="w-full overflow-hidden" style={{ height: 145, background: "#1a2a52" }}>
                     <img src={seller.img} alt={seller.name} className="w-full h-full object-cover" />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="p-3 flex-1 min-w-0 flex flex-col">
                     <div className="text-white font-black text-sm leading-tight">{seller.name}</div>
-                    <div className="text-xs mt-0.5 mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>{seller.cat} · {seller.desc}</div>
-                    <span className="text-xs font-black px-2 py-0.5 rounded-full" style={{ background: "#10b981", color: "#fff" }}>{seller.discount}</span>
+                    <div className="text-[10px] mt-1 line-clamp-2" style={{ color: "rgba(255,255,255,0.5)" }}>{seller.cat} · {seller.desc}</div>
+                    <span className="self-start mt-3 text-[9px] font-black px-2 py-1 rounded-full" style={{ background: "#10b981", color: "#fff" }}>{seller.discount}</span>
+                    <button onClick={e => { e.stopPropagation(); setSelectedSeller(seller); }} className="mt-2 w-full h-9 rounded-lg bg-amber-400 text-[#020b18] text-[11px] font-black flex items-center justify-center">View Store</button>
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedSeller && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center p-6" style={{ background: "rgba(2,11,24,0.82)", backdropFilter: "blur(5px)" }} onClick={() => { setSelectedProduct(null); setSelectedSeller(null); }}>
+          <div className="w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl" style={{ background: "#0e1e38", border: "1px solid rgba(255,255,255,0.12)" }} onClick={e => e.stopPropagation()}>
+            <div className="grid grid-cols-2 min-h-[360px]">
+              <div className="overflow-hidden" style={{ background: "#1a2a52" }}>
+                <img src={selectedSeller.img} alt={selectedSeller.name} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-7 flex flex-col relative">
+                <button onClick={() => { setSelectedProduct(null); setSelectedSeller(null); }} className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 text-xl" style={{ background: "rgba(255,255,255,0.08)" }}>×</button>
+                {selectedSeller ? (
+                  <>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-400">{selectedSeller.cat}</span>
+                    <h3 className="text-white text-xl font-black mt-2 pr-8">{selectedSeller.name}</h3>
+                    <p className="text-slate-300 text-sm leading-relaxed mt-5">{selectedSeller.desc}</p>
+                    <span className="self-start mt-5 text-[10px] font-black px-3 py-1.5 rounded-full bg-emerald-500 text-white">{selectedSeller.discount}</span>
+                    <div className="mt-auto pt-6 space-y-2">
+                      <button className="w-full h-11 rounded-xl bg-amber-400 text-[#020b18] font-black text-xs">Browse Products</button>
+                      <button className="w-full h-10 rounded-xl text-white/70 font-bold text-xs" style={{ border: "1px solid rgba(255,255,255,0.10)" }}>Contact Seller</button>
+                    </div>
+                  </>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
@@ -2316,33 +2403,33 @@ function DesktopLayout() {
   }
 
   return (
-    <div className="w-full h-full flex" style={{ background: BG, fontFamily: "'Nunito', sans-serif", color: "#fff" }}>
+    <div className="student-desktop w-full h-full flex" style={{ background: BG, fontFamily: "'Nunito', sans-serif", color: "#fff" }}>
       {/* Sidebar */}
-      <aside className="flex-shrink-0 flex flex-col" style={{ width: 205, background: "#050e1c", borderRight: "1px solid rgba(255,255,255,0.07)" }}>
+      <aside className="w-64 flex-shrink-0 flex flex-col" style={{ background: "#071426", borderRight: "1px solid rgba(255,255,255,0.10)" }}>
         {/* Logo */}
-        <div className="flex items-center gap-2.5 px-4 py-4 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <img src={orgLogo} alt="OrgConnect" className="rounded-full object-cover flex-shrink-0" style={{ width: 34, height: 34 }} />
+        <div className="h-20 px-5 flex items-center gap-3 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.10)" }}>
+          <div className="student-brand-logo w-10 h-10 rounded-full overflow-hidden flex-shrink-0"><img src={orgLogo} alt="OrgConnect" className="w-full h-full rounded-full object-cover" /></div>
           <div>
             <div className="flex items-center gap-0.5">
               <span className="font-black text-base" style={{ color: "#f5a623" }}>Org</span>
               <span className="font-black text-base text-white">Connect</span>
             </div>
-            <div className="text-xs" style={{ color: "rgba(255,255,255,0.3)", fontSize: 9, letterSpacing: "0.08em" }}>ATENEO DE DAVAO</div>
+            <div className="text-[9px] uppercase font-black" style={{ color: "#f5a623", letterSpacing: "0.16em" }}>Student Portal</div>
           </div>
         </div>
 
         {/* Nav items */}
-        <nav className="flex-1 px-2.5 py-3 flex flex-col gap-1">
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
           {NAV_ITEMS.map(({ label, icon }) => {
             const active = activeTab === label && !showApps;
             return (
               <button
                 key={label}
                 onClick={() => { setActiveTab(label); setShowApps(false); setSelectedOrg(null); setApplyingOrg(null); }}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl font-semibold text-xs text-left w-full transition-all"
-                style={{ background: active ? "rgba(245,166,35,0.12)" : "transparent", color: active ? "#f5a623" : "rgba(255,255,255,0.55)", border: active ? "1px solid rgba(245,166,35,0.2)" : "1px solid transparent" }}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold text-xs text-left w-full transition-all"
+                style={{ background: active ? "#f5a623" : "transparent", color: active ? "#020b18" : "#94a3b8" }}
               >
-                <span style={{ color: active ? "#f5a623" : "rgba(255,255,255,0.4)" }}>{icon}</span>
+                <span style={{ color: active ? "#020b18" : "#64748b" }}>{icon}</span>
                 {label}
               </button>
             );
@@ -2350,8 +2437,8 @@ function DesktopLayout() {
         </nav>
 
         {/* User card at bottom */}
-        <div className="flex-shrink-0 px-4 py-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.04)" }}>
+        <div className="flex-shrink-0 p-4" style={{ borderTop: "1px solid rgba(255,255,255,0.10)" }}>
+          <div className="flex items-center gap-3 p-3 rounded-2xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)" }}>
             <div className="rounded-full flex items-center justify-center flex-shrink-0" style={{ width: 36, height: 36, background: "#162347", border: "2px solid rgba(255,255,255,0.1)" }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
@@ -2366,8 +2453,9 @@ function DesktopLayout() {
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Topbar */}
-        <div className="flex-shrink-0 flex items-center justify-between px-5 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", background: "#030d1b" }}>
-          <div className="desktop-search flex items-center gap-2 flex-1 max-w-sm">
+        <div className="h-20 flex-shrink-0 flex items-center justify-between px-8" style={{ borderBottom: "1px solid rgba(255,255,255,0.10)", background: "#061224" }}>
+          <div><div className="text-white text-lg font-black">{showApps ? "Applications" : activeTab}</div><div className="text-slate-500 text-[11px] mt-1">Juan Dela Cruz · Student Portal</div></div>
+          <div className="desktop-search flex items-center gap-2 w-64">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="rgba(255,255,255,0.35)"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
             <input placeholder="Search organizations, events, merch..." className="bg-transparent flex-1 text-sm text-white placeholder:text-white/30 outline-none" style={{ minWidth: 0 }} />
           </div>
@@ -2380,9 +2468,9 @@ function DesktopLayout() {
         </div>
 
         {/* Content + notif side panel */}
-        <div className="flex-1 flex min-h-0">
+        <div className="relative flex-1 flex min-h-0 overflow-hidden">
           {/* Main content */}
-          <div className="flex-1 overflow-hidden px-5 py-4">
+          <div className="student-desktop-content flex-1 min-h-0 overflow-y-auto phone-scroll p-8">
             {showApps && <ApplicationsScreen onBack={() => setShowApps(false)} />}
             {!showApps && activeTab === "Home" && <DesktopHomePanel onNav={t => { setActiveTab(t); setShowApps(false); }} onOpenApps={() => setShowApps(true)} />}
             {!showApps && activeTab === "Organizations" && (
@@ -2399,7 +2487,14 @@ function DesktopLayout() {
 
           {/* Notifications panel */}
           {showNotifs && (
-            <div className="w-80 flex-shrink-0 flex flex-col" style={{ borderLeft: "1px solid rgba(255,255,255,0.07)", background: "#050e1c" }}>
+            <div
+              className="absolute inset-y-0 right-0 z-40 w-80 flex flex-col shadow-2xl"
+              style={{
+                borderLeft: "1px solid rgba(255,255,255,0.07)",
+                background: "#050e1c",
+                boxShadow: "-18px 0 40px rgba(0,0,0,0.32)",
+              }}
+            >
               <div className="flex items-center justify-between px-5 py-4 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
                 <span className="font-black text-white text-sm">Notifications</span>
                 <div className="flex items-center gap-3">
