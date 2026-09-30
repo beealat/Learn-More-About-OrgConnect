@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PortalEntry from './PortalEntry'
 import MobilePrototype from './MobilePrototype'
 import DesktopPrototype from './DesktopPrototype'
 import OrganizationMobilePrototype from './OrganizationMobilePrototype'
@@ -98,7 +99,7 @@ export default function App() {
               <div className="phone-frame interactive-device">
                 <div className="phone-speaker" />
                 <div className="phone-screen live-mobile">
-                  <Prototype />
+                  {pov === 'student' ? <Prototype /> : <PortalEntry key={`${pov}-${mode}`} type={pov} mobile={mode === 'mobile'}><Prototype /></PortalEntry>}
                 </div>
               </div>
             ) : (
@@ -110,7 +111,7 @@ export default function App() {
                   <div className="addr">orgconnect.app · {povName.toLowerCase()} view</div>
                 </div>
                 <div className="browser-screen live-desktop">
-                  <Prototype />
+                  {pov === 'student' ? <Prototype /> : <PortalEntry key={`${pov}-${mode}`} type={pov} mobile={mode === 'mobile'}><Prototype /></PortalEntry>}
                 </div>
               </div>
             )}
